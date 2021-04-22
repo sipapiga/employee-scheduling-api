@@ -10,7 +10,8 @@ const schema = {
   },
   password: {
     type: String,
-    required: true,
+    minlength: 6,
+    default: '123456',
     trim: true,
   },
   name: {
@@ -54,7 +55,7 @@ const userModel = {
   },
   async getUsers() {
     try {
-      return await User.find();
+      return await User.find().populate('company');
     } catch (e) {
       console.error(e);
       return false;
@@ -62,7 +63,7 @@ const userModel = {
   },
   async getUser(id) {
     try {
-      return await User.findById({ _id: id });
+      return await User.findById({ _id: id }).populate('company');
     } catch (e) {
       console.error(e);
       return false;
