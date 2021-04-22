@@ -33,7 +33,6 @@ const companyModel = {
     }
   },
   async addEmpoyeeToCompany(company) {
-    const companyResult = await Company.findById(company.id);
     try {
       // eslint-disable-next-line max-len
       return await Company.findOneAndUpdate({ _id: company.id }, { $push: { employees: company.employees } }, {

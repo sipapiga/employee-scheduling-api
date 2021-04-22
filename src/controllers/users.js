@@ -6,7 +6,7 @@ const userController = {
   async registerUser(req, res, next) {
     try {
       const user = await userModel.createUser(req.body);
-      await companyModel.addEmpoyeeToCompany({ id: req.body.company_id, employees: user });
+      await companyModel.addEmpoyeeToCompany({ id: req.body.company, employees: user });
       res.status(201).json({
         success: true,
         data: user,
@@ -95,6 +95,13 @@ const userController = {
       if (!user) {
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
       }
+    } catch (e) {
+      next(e);
+    }
+  },
+  async me(req, res, next) {
+    try {
+      res.status(200).json(req.user);
     } catch (e) {
       next(e);
     }
