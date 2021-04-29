@@ -23,7 +23,7 @@ const userController = {
       if (!email || !password) {
         return next(new ErrorResponse('Please provide an email and password', 400));
       }
-      const result = await userModel.authenticateUser(email, password);
+      const result = await userModel.authenticateUser(email.toLowerCase(), password);
       if (!result.loggedIn) return next(new ErrorResponse(result.message, 401));
 
       res.status(200).json({
@@ -100,6 +100,7 @@ const userController = {
     }
   },
   async me(req, res, next) {
+    console.log(res);
     try {
       res.status(200).json(req.user);
     } catch (e) {

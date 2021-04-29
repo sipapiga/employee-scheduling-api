@@ -13,5 +13,26 @@ const companyController = {
       next(e);
     }
   },
+  async getPersonsInCompany(req, res, next) {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      const adminCompanyId = req.user.company._id;
+      console.log(adminCompanyId);
+      if (!adminCompanyId) {
+        return next(new ErrorResponse('not authorize to access this route', 401));
+      }
+      if (adminCompanyId === req.params.id) {
+        const employees = await companyModel.getPersonsInCompany(req.params.id);
+        res.status(200).json({
+          success: true,
+          data: employees,
+        });
+      } else {
+        return next(new ErrorResponse('not authorize to access this route', 403));
+      }
+    } catch (e) {
+      next(e);
+    }
+  },
 };
 module.exports = companyController;

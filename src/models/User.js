@@ -7,6 +7,7 @@ const schema = {
     type: String,
     required: true,
     unique: true,
+    lowercase: true,
   },
   password: {
     type: String,
@@ -95,7 +96,8 @@ const userModel = {
   },
   async authenticateUser(email, password) {
     try {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email }).populate('company');
+      console.log(user);
       if (!user) {
         return { loggedIn: false, message: 'Invalid Password or Email' };
       }
@@ -110,9 +112,10 @@ const userModel = {
     }
   },
   async generateAuthToken(user) {
+    console.log(user);
     return jwt.sign({
       // eslint-disable-next-line no-underscore-dangle
-      id: user._id, name: user.name, role: user.role,
+      id: user._id, name: user.name, role: user.role, company: user.company, address: user.address,
     }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
   },
 };

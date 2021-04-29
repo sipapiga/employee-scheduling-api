@@ -44,6 +44,14 @@ const companyModel = {
       throw e;
     }
   },
+  async getPersonsInCompany(id) {
+    console.log(id);
+    try {
+      return await Company.findById({ _id: id }).populate('employees');
+    } catch (e) {
+      console.error(e);
+    }
+  },
 };
 
 module.exports = { Company, companyModel };
