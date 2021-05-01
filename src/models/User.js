@@ -14,6 +14,7 @@ const schema = {
     minlength: 6,
     default: '123456',
     trim: true,
+    select: false,
   },
   name: {
     type: String,
@@ -30,6 +31,10 @@ const schema = {
   role: {
     type: String,
     default: 'employee',
+  },
+  color: {
+    type: String,
+    default: '#afb42b',
   },
 };
 const userSchema = new mongoose.Schema(schema, { timestamps: true });
@@ -96,7 +101,7 @@ const userModel = {
   },
   async authenticateUser(email, password) {
     try {
-      const user = await User.findOne({ email }).populate('company');
+      const user = await User.findOne({ email }).populate('company').select('+password');
       console.log(user);
       if (!user) {
         return { loggedIn: false, message: 'Invalid Password or Email' };

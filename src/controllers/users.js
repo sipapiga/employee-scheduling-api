@@ -1,5 +1,6 @@
 const { userModel } = require('../models/User');
 const { companyModel } = require('../models/Company');
+const { scheduleModel } = require('../models/Schedule');
 const ErrorResponse = require('../utils/errorResponse');
 
 const userController = {
@@ -86,15 +87,14 @@ const userController = {
   // eslint-disable-next-line consistent-return
   async deleteUser(req, res, next) {
     try {
-      const user = await userModel.deleteUser(req.params.id);
+      await userModel.deleteUser(req.params.id);
+      await companyModel.removeEmpoyeeFromCompany(req.param.id);
+      await scheduleModel.deleteSchedule(req.params.id);
 
       res.status(200).json({
         success: true,
         message: 'User Deleted',
       });
-      if (!user) {
-        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
-      }
     } catch (e) {
       next(e);
     }

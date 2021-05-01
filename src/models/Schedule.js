@@ -39,6 +39,14 @@ const scheduleModel = {
       throw e;
     }
   },
+  async deleteSchedule(userId) {
+    try {
+      return await Schedule.remove({ employee: userId }, { multi: true });
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
 };
 
 module.exports = { Schedule, scheduleModel };

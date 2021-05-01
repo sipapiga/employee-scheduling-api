@@ -8,4 +8,7 @@ scheduleRouter.route('/')
   .post(auth, schedule.createSchedule)
   .get(auth, schedule.getSchedules);
 
+scheduleRouter.route('/:id')
+  .delete(auth, schedule.deleteSchedule);
+
 module.exports = scheduleRouter;

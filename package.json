@@ -9,6 +9,7 @@
     "dev": "nodemon server",
     "lint": "eslint --fix ."
   },
+  "proxy": "http://localhost:3000",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@gitlab.com/sipapiga/employee-scheduling-api.git"
