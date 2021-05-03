@@ -1,5 +1,4 @@
 const { scheduleModel } = require('../models/Schedule');
-const { extraScheduleModel } = require('../models/ExtraSchedule');
 const ErrorResponse = require('../utils/errorResponse');
 
 const scheduleController = {
