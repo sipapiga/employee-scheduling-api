@@ -120,7 +120,10 @@ const userModel = {
     console.log(user);
     return jwt.sign({
       // eslint-disable-next-line no-underscore-dangle
-      id: user._id, name: user.name, role: user.role, company: user.company, address: user.address,
+      id: user._id,
+      name: user.name,
+      role: user.role,
+      company: user.company._id,
     }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
   },
 };

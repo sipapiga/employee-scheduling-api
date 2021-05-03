@@ -9,6 +9,7 @@ scheduleRouter.route('/')
   .get(auth, schedule.getSchedules);
 
 scheduleRouter.route('/:id')
-  .delete(auth, schedule.deleteSchedule);
+  .delete(auth, schedule.deleteSchedule)
+  .patch(auth, schedule.updateSchedule);
 
 module.exports = scheduleRouter;
