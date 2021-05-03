@@ -1,4 +1,5 @@
 const { scheduleModel } = require('../models/Schedule');
+const { extraScheduleModel } = require('../models/ExtraSchedule');
 const ErrorResponse = require('../utils/errorResponse');
 
 const scheduleController = {
@@ -39,6 +40,24 @@ const scheduleController = {
       res.status(200).json({
         success: true,
         message: 'Schedule Deleted',
+      });
+    } catch (e) {
+      next(e);
+    }
+  },
+  // eslint-disable-next-line consistent-return
+  async updateSchedule(req, res, next) {
+    console.log(req.body);
+    console.log(req.params.id);
+    try {
+      const schedule = await scheduleModel.updateSchedule(req.params.id, req.body);
+      if (!schedule) {
+        return next(new ErrorResponse(`Schedule not found with id of ${req.params.id}`, 404));
+      }
+
+      res.status(200).json({
+        success: true,
+        data: schedule,
       });
     } catch (e) {
       next(e);

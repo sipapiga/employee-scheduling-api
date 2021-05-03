@@ -9,7 +9,7 @@
     "dev": "nodemon server",
     "lint": "eslint --fix ."
   },
-  "proxy": "https://hourhub-api.herokuapp.com",
+  "proxy": "http://localhost:3000",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@gitlab.com/sipapiga/employee-scheduling-api.git"

@@ -100,9 +100,12 @@ const userController = {
     }
   },
   async me(req, res, next) {
-    console.log(res);
     try {
-      res.status(200).json(req.user);
+      const user = await userModel.getUser(req.user.id);
+      if (!user) {
+        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
+      }
+      res.status(200).json(user);
     } catch (e) {
       next(e);
     }
