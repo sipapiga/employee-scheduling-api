@@ -25,6 +25,7 @@ module.exports = ({ user, admin }) => `
           style="
           background-color: #f377ab;
           font-family: Verdana;
+          padding: 12px 24px;
           border-radius: 9px;
           color: #fff;
          "
