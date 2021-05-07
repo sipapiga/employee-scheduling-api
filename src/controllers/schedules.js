@@ -46,8 +46,6 @@ const scheduleController = {
   },
   // eslint-disable-next-line consistent-return
   async updateSchedule(req, res, next) {
-    console.log(req.body);
-    console.log(req.params.id);
     try {
       const schedule = await scheduleModel.updateSchedule(req.params.id, req.body);
       if (!schedule) {

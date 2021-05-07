@@ -2,7 +2,7 @@ const express = require('express');
 
 const userRouter = express.Router();
 const users = require('../controllers/users');
-const { auth } = require('../middleware/authorization');
+const { auth, admin } = require('../middleware/authorization');
 
 userRouter.route('/')
   .get(users.getUsers);
@@ -10,6 +10,8 @@ userRouter.route('/')
 userRouter.route('/:id')
   .get(users.getUser)
   .patch(auth, users.updateUser)
-  .delete(auth, users.deleteUser);
+  .delete(auth, admin, users.deleteUser);
+
+userRouter.route('/admin/send-schedule').get(auth, admin, users.sendMailtoEmployees);
 
 module.exports = userRouter;

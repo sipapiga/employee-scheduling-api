@@ -45,17 +45,23 @@ const scheduleModel = {
       throw e;
     }
   },
-  async deleteSchedule(userId) {
+  async deleteUserSchedules(userId) {
     try {
-      return await Schedule.remove({ employee: userId }, { multi: true });
+      return await Schedule.deleteMany({ employee: userId }, { multi: true });
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+  async deleteSchedule(id) {
+    try {
+      return await Schedule.deleteOne({ _id: id });
     } catch (e) {
       console.error(e);
       return false;
     }
   },
   async updateSchedule(id, payload) {
-    console.log(id, 'ID');
-    console.log(payload, 'PAYLOAD');
     try {
       return await Schedule.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
     } catch (e) {

@@ -14,7 +14,16 @@ async function auth(req, res, next) {
     return next();
   } catch (e) {
     console.error(e);
-    return next(new ErrorResponse('Not authorize to access this route', 402));
   }
 }
-module.exports = { auth };
+async function admin(req, res, next) {
+  try {
+    if (req.user.role === 'admin' || req.user.role === 'superadmin') {
+      return next();
+    }
+    return next(new ErrorResponse('Not authorize to access this route', 401));
+  } catch (e) {
+    console.error(e);
+  }
+}
+module.exports = { auth, admin };

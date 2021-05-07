@@ -6,6 +6,7 @@ const connectDB = async () => {
     await mongoose.connect(`mongodb+srv://${process.env.DBHOST}:${process.env.DBPASSWORD}@patpra.2jv8s.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`, {
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: false,
       useUnifiedTopology: true,
     });
     console.log('Connect to DB');
@@ -13,4 +14,4 @@ const connectDB = async () => {
     console.error(`Database connecting error : ${error}`);
   }
 };
-module.exports = { connectDB };
+module.exports = connectDB;

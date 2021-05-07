@@ -77,7 +77,7 @@ const userModel = {
   },
   async updateUser(id, payload) {
     try {
-      return await User.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
+      return await User.findByIdAndUpdate(id, payload, { new: true, runValidators: true }).populate('company');
     } catch (e) {
       console.error(e);
       return false;
@@ -100,6 +100,7 @@ const userModel = {
     }
   },
   async authenticateUser(email, password) {
+    console.log(email, password);
     try {
       const user = await User.findOne({ email }).populate('company').select('+password');
       console.log(user);
@@ -110,10 +111,21 @@ const userModel = {
       if (!isCorrectPassword) return { loggedIn: false, message: 'Invalid Credentials' };
 
       const token = await userModel.generateAuthToken(user);
-      return { loggedIn: true, token, user };
+      return { loggedIn: true, token };
     } catch (e) {
       console.error(e);
       return false;
+    }
+  },
+  async activatePassword(id, payload) {
+    try {
+      const { password } = payload;
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
+      return await User.findByIdAndUpdate(id, { password: hashPassword },
+        { new: true, runValidators: true }).select('+password');
+    } catch (e) {
+      console.error(e);
     }
   },
   async generateAuthToken(user) {
@@ -124,6 +136,7 @@ const userModel = {
       name: user.name,
       role: user.role,
       company: user.company._id,
+      companyName: user.company.name,
     }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
   },
 };
