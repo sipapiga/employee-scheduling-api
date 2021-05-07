@@ -1,4 +1,4 @@
-module.exports = ({ user, admin }) => `
+module.exports = ({ admin }) => `
  <html>
   <link
     rel="stylesheet"
@@ -10,7 +10,7 @@ module.exports = ({ user, admin }) => `
         src="http://hourhub.se/Hourhub.png"
         style="width: 100%"
       />
-      <h3>Hej ${user.name}</h3>
+      <h3>Hej</h3>
       <p>
         ${admin.name} har lagt nya schema för 
         ${admin.companyName}
@@ -24,6 +24,7 @@ module.exports = ({ user, admin }) => `
           style="
           background-color: #f377ab;
           font-family: Verdana;
+          padding: 12px 24px;
           border-radius: 9px;
           color: #fff;
         "
