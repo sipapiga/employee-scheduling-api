@@ -5,6 +5,7 @@ const { scheduleModel } = require('../models/Schedule');
 const ErrorResponse = require('../utils/errorResponse');
 const Mailer = require('../services/Mailer');
 const newUserCreatedMailTemplate = require('../services/emailTemplates/newUserCreatedMailTemplate');
+const newUserPublicCreatedMailTemplate = require('../services/emailTemplates/newUserPublicCreatedMailTemplate');
 const scheduleNotificationMailTemplate = require('../services/emailTemplates/scheduleNotificationMailTemplate');
 
 const userController = {
@@ -19,6 +20,38 @@ const userController = {
         from: 'admin@hourhub.se',
         subject: 'Skapa ett lösenord för att komma igång',
         html: newUserCreatedMailTemplate({ user, admin }),
+      };
+      sgMail
+        .send(msg)
+        .then(() => {
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.response) {
+            const { response } = error;
+            const { body } = response;
+            console.error(body);
+          }
+        });
+      res.status(201).json({
+        success: true,
+        data: user,
+      });
+    } catch (e) {
+      next(e);
+    }
+  },
+  async registerUserPublic(req, res, next) {
+    try {
+      const user = await userModel.createUser(req.body);
+      const company = await companyModel.addEmpoyeeToCompany({ id: req.body.company, employees: user });
+      const companyName = company.name;
+      sgMail.setApiKey(process.env.SENDGRID_KEY);
+      const msg = {
+        to: `${user.email}`,
+        from: 'admin@hourhub.se',
+        subject: 'Skapa ett lösenord för att komma igång',
+        html: newUserPublicCreatedMailTemplate({ user, companyName }),
       };
       sgMail
         .send(msg)
@@ -60,14 +93,9 @@ const userController = {
     }
   },
   async activateUser(req, res, next) {
-    console.log(req.params.id);
-    console.log(req.body);
     try {
       const resultUser = await userModel.activatePassword(req.params.id, req.body);
-      console.log(resultUser);
-
       const result = await userModel.authenticateUser(resultUser.email, req.body.password);
-      console.log(result);
       if (result.loggedIn) {
         res.status(200).json({
           success: result.loggedIn,
@@ -81,15 +109,15 @@ const userController = {
   },
   async sendMailtoEmployees(req, res, next) {
     try {
-      const users = await userModel.getUsers();
-      const userData = users.map((user) => user);
-      console.log(userData);
+      const companyId = req.user.company;
+      const users = await companyModel.getPersonsInCompany(companyId);
+      const userData = users.employees.map((user) => user);
       const payload = {
         user: userData,
         admin: req.user,
       };
-      const mailer = new Mailer(users, scheduleNotificationMailTemplate(payload));
-      console.log(mailer);
+      const mailer = new Mailer(users.employees, scheduleNotificationMailTemplate(payload));
+
       mailer
         .send()
         .then(() => {

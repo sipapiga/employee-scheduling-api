@@ -4,8 +4,6 @@ const helper = sendgrid.mail;
 
 class Mailer extends helper.Mail {
   constructor(recipients, content) {
-    console.log(process.env.SENDGRID_KEY);
-    console.log(recipients);
     super();
     this.sgApi = sendgrid(process.env.SENDGRID_KEY);
     this.from_email = new helper.Email('admin@hourhub.se');
@@ -19,10 +17,7 @@ class Mailer extends helper.Mail {
   }
 
   formatAddresses(recipients) {
-    return recipients.map(({ email }) => {
-      console.log(email);
-      return new helper.Email(email);
-    });
+    return recipients.map(({ email }) => new helper.Email(email));
   }
 
   addClickTracking() {
@@ -47,10 +42,8 @@ class Mailer extends helper.Mail {
       path: '/v3/mail/send',
       body: this.toJSON(),
     });
-    console.log(req);
     try {
       const res = this.sgApi.API(req);
-      console.log(res, 'res');
       return res;
     } catch (e) {
       console.error(e);

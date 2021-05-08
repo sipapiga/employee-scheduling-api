@@ -16,7 +16,7 @@ const scheduleController = {
   async getSchedules(req, res, next) {
     try {
       // eslint-disable-next-line no-underscore-dangle
-      const schedules = await scheduleModel.getSchedules();
+      const schedules = await scheduleModel.getSchedules(req.user.company);
       if (!schedules) {
         return next(new ErrorResponse('Schedules not found', 404));
       }

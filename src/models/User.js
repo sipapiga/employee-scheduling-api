@@ -22,7 +22,6 @@ const schema = {
   },
   address: {
     type: String,
-    required: true,
   },
   company: {
     type: mongoose.Schema.Types.ObjectId,
@@ -100,10 +99,8 @@ const userModel = {
     }
   },
   async authenticateUser(email, password) {
-    console.log(email, password);
     try {
       const user = await User.findOne({ email }).populate('company').select('+password');
-      console.log(user);
       if (!user) {
         return { loggedIn: false, message: 'Invalid Password or Email' };
       }
@@ -129,7 +126,6 @@ const userModel = {
     }
   },
   async generateAuthToken(user) {
-    console.log(user);
     return jwt.sign({
       // eslint-disable-next-line no-underscore-dangle
       id: user._id,

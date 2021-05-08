@@ -6,6 +6,7 @@ const { auth } = require('../middleware/authorization');
 
 authRouter.route('/login').post(users.authenticateUser);
 authRouter.route('/register').post(auth, users.registerUser);
+authRouter.route('/register-public').post(users.registerUserPublic);
 authRouter.route('/me').get(auth, users.me);
 authRouter.route('/activate/:id').patch(users.activateUser);
 

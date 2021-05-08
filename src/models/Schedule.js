@@ -5,6 +5,10 @@ const schema = {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
+  },
   start: Date,
   end: Date,
   color: {
@@ -22,7 +26,6 @@ const Schedule = mongoose.model('Schedule', scheduleSchema);
 
 const scheduleModel = {
   async createSchedule(data) {
-    console.log(data);
     try {
       const schedule = {
         employee: data.employee,
@@ -30,16 +33,17 @@ const scheduleModel = {
         end: data.end,
         color: data.color,
         extra: data.extra,
+        company: data.company,
       };
       return await Schedule.create(schedule);
     } catch (e) {
       console.error(e); throw e;
     }
   },
-  async getSchedules() {
+  async getSchedules(companyId) {
     try {
       // eslint-disable-next-line max-len
-      return await Schedule.find().populate('employee');
+      return await Schedule.find({ company: companyId }).populate('employee');
     } catch (e) {
       console.error(e);
       throw e;

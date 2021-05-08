@@ -1,4 +1,4 @@
-module.exports = ({ user, admin }) => `
+module.exports = ({ user, companyName }) => `
  <html>
   <link
     rel="stylesheet"
@@ -12,8 +12,8 @@ module.exports = ({ user, admin }) => `
       />
       <h3>Hej ${user.name}</h3>
       <p>
-        ${admin.name} har lagt till dig som person i Hourhub.se för
-        ${admin.companyName}
+        ${companyName} har lagt till dig som person i Hourhub.se för
+        ${companyName}
       </p>
       <p>
         Ditt konto har nu skapats och är redo att användas. Innan du kommer

@@ -57,7 +57,6 @@ const companyModel = {
     }
   },
   async getPersonsInCompany(id) {
-    console.log(id, 'ID');
     try {
       return await Company.findById({ _id: id }).populate('employees');
     } catch (e) {
