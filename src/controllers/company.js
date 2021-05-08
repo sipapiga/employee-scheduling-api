@@ -14,11 +14,9 @@ const companyController = {
     }
   },
   async getPersonsInCompany(req, res, next) {
-    console.log(req.params.id);
     try {
       // eslint-disable-next-line no-underscore-dangle
       const adminCompanyId = req.user.company;
-      console.log(adminCompanyId);
       if (!adminCompanyId) {
         return next(new ErrorResponse('not authorize to access this route', 401));
       }

@@ -18,20 +18,21 @@ module.exports = ({ admin }) => `
       <p>
         Vänligen logga in och kolla.
       </p>
-        <a
-          class="waves-effect waves-light btn" 
-          href="https://hourhub.se/"
-          style="
-          background-color: #f377ab;
-          font-family: Verdana;
-          padding: 12px 24px;
-          border-radius: 9px;
-          color: #fff;
-        "
-        >
-          Logga in
-        </a>
-
+         <div style="margin: 35px 0px">
+            <a
+            class="waves-effect waves-light btn" 
+            href="https://hourhub.se/"
+            style="
+              background-color: #f377ab;
+              font-family: Verdana;
+              padding: 12px 24px;
+              border-radius: 9px;
+              color: #fff;
+             "
+            >
+            Logga in
+            </a>
+        </div>
       <p>Med vänlig hälsning</p>
       <p>hourhub.se</p>
     </div>
