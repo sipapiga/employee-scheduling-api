@@ -172,7 +172,7 @@ const userController = {
   // eslint-disable-next-line consistent-return
   async updateUser(req, res, next) {
     try {
-      if (req.user.id !== req.params.id || req.user.role !== 'admin') {
+      if (req.user.id !== req.params.id) {
         return next(new ErrorResponse('Not authorize to access this route', 403));
       }
       const user = await userModel.updateUser(req.params.id, req.body);
