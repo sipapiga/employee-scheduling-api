@@ -172,9 +172,24 @@ const userController = {
   // eslint-disable-next-line consistent-return
   async updateUser(req, res, next) {
     try {
-      if (req.user.id !== req.params.id) {
+      if (req.user.id !== req.params.id || req.user.role !== 'admin') {
         return next(new ErrorResponse('Not authorize to access this route', 403));
       }
+      const user = await userModel.updateUser(req.params.id, req.body);
+      if (!user) {
+        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
+      }
+
+      res.status(200).json({
+        success: true,
+        data: user,
+      });
+    } catch (e) {
+      next(e);
+    }
+  },
+  async adminUpdateUser(req, res, next) {
+    try {
       const user = await userModel.updateUser(req.params.id, req.body);
       if (!user) {
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));

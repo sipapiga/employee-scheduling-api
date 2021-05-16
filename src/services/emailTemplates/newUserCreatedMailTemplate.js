@@ -8,7 +8,7 @@ module.exports = ({ user, admin }) => `
      <div  class="container text-center">
       <img
         src="http://hourhub.se/Hourhub.png"
-        style="width: 100%"
+        style="width: 60%"
       />
       <h3>Hej ${user.name}</h3>
       <p>

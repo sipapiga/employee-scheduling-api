@@ -12,6 +12,9 @@ userRouter.route('/:id')
   .patch(auth, users.updateUser)
   .delete(auth, admin, users.deleteUser);
 
+userRouter.route('/admin/update/:id')
+  .patch(auth, admin, users.adminUpdateUser);
+
 userRouter.route('/admin/send-schedule').get(auth, admin, users.sendMailtoEmployees);
 
 module.exports = userRouter;
