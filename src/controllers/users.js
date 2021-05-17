@@ -175,6 +175,11 @@ const userController = {
       if (req.user.id !== req.params.id) {
         return next(new ErrorResponse('Not authorize to access this route', 403));
       }
+      if (req.user.role === 'admin') {
+        const address = req.body.organisationAddress;
+        const result = await companyModel.updateCompany(req.user.company, { address });
+        console.log(result);
+      }
       const user = await userModel.updateUser(req.params.id, req.body);
       if (!user) {
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
@@ -188,6 +193,7 @@ const userController = {
       next(e);
     }
   },
+  // eslint-disable-next-line consistent-return
   async adminUpdateUser(req, res, next) {
     try {
       const user = await userModel.updateUser(req.params.id, req.body);

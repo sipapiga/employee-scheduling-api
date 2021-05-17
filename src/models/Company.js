@@ -56,11 +56,22 @@ const companyModel = {
       throw e;
     }
   },
+  // eslint-disable-next-line consistent-return
   async getPersonsInCompany(id) {
     try {
       return await Company.findById({ _id: id }).populate('employees');
     } catch (e) {
       console.error(e);
+    }
+  },
+  async updateCompany(id, payload) {
+    console.log(id);
+    console.log(payload);
+    try {
+      return await Company.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
+    } catch (e) {
+      console.error(e);
+      return false;
     }
   },
 };

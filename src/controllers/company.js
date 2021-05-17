@@ -33,5 +33,16 @@ const companyController = {
       next(e);
     }
   },
+  async updateCompany(req, res, next) {
+    try {
+      const company = await companyModel.updateCompany(req.params.id, req.body);
+      res.status(200).json({
+        success: true,
+        data: company,
+      });
+    } catch (e) {
+      next(e);
+    }
+  },
 };
 module.exports = companyController;
